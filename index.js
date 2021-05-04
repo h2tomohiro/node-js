@@ -1,9 +1,9 @@
-const express = require('express')
-const path = require('path')
+const express = require("express");
+const path = require("path");
 
-const shopRouters = require('./routes/shop')
+const shopRouters = require("./routes/shop");
 
-const app = express()
+const app = express();
 
 //middlewares
 // app.use((req, res, next) => {
@@ -21,27 +21,29 @@ const app = express()
 // })
 
 //to parse incoming form data --body parser
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/add-products', (req,res) => {
-    res.send(`
+app.use("/add-products", (req, res) => {
+  res.send(`
         <form action="/product" method="POST">
             <input type="text" name="title" />
             <button type="submit">SEND</button>
         </form>
-    `)
-})
+    `);
+});
 
-app.use('/product', (req,res) => {
-    console.log(req.body)
-    res.redirect('/')
-})
+app.use("/product", (req, res) => {
+  console.log(req.body);
+  res.redirect("/");
+});
 
 // route
-app.use(shopRouters)
+app.use(shopRouters);
 
 //catch-all-middleware ------ 404
+app.get("*", function (req, res) {
+  res.status(404).send("404");
+});
 
-
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`Server started at port ${PORT}`))
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started at port ${PORT}`));
